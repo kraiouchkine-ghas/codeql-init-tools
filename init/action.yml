@@ -114,7 +114,7 @@ runs:
         run: echo pre init
         shell: bash
       - id: init
-        uses: kraiouchkine-ghas/codeql-action-forked/init@main
+        uses: kraiouchkine-ghas/codeql-action-forked/init@v2
         with: ${{ inputs }}
       - id: post-init
         run: echo post init
