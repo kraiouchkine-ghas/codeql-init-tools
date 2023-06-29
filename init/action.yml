@@ -41,7 +41,7 @@ inputs:
   config-file:
     description: Path of the config file to use
     required: false
-    default: ${{ runner.temp }}/codeql/default-codeql-config.yml
+    default: ${{ GITHUB_WORKSPACE }}/codeql/default-codeql-config.yml
   db-location:
     description: Path where CodeQL databases should be created. If not specified, a temporary directory will be used.
     required: false
