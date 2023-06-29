@@ -119,7 +119,7 @@ runs:
         shell: bash
       - id: extract-bundle-codeql-config
         run: |
-          tar -zxvf ${{ runner.temp }}/codeql-bundle-linux64.tar.gz codeql/default-codeql-config.yml
+          tar -zxvf -C ${{ GITHUB_WORKSPACE }} ${{ runner.temp }}/codeql-bundle-linux64.tar.gz codeql/default-codeql-config.yml
         shell: bash
       - id: pre-init
         run: echo pre init
