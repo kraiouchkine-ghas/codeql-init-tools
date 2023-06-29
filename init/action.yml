@@ -41,6 +41,7 @@ inputs:
   config-file:
     description: Path of the config file to use
     required: false
+    default: ${{ runner.temp }}/codeql/default-codeql-config.yml
   db-location:
     description: Path where CodeQL databases should be created. If not specified, a temporary directory will be used.
     required: false
@@ -110,6 +111,15 @@ outputs:
 runs:
   using: "composite"
   steps:
+      - id: download-bundle-release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          gh release download -D ${{ runner.temp }} https://github.com/kraiouchkine-ghas/init-codeql-customizations/releases/download/codeql-bundle-20221105/codeql-bundle-linux64.tar.gz
+        shell: bash
+      - id: extract-bundle-codeql-config
+        run: |
+          tar -zxvf ${{ runner.temp }}/codeql-bundle-linux64.tar.gz codeql/default-codeql-config.yml
       - id: pre-init
         run: echo pre init
         shell: bash
