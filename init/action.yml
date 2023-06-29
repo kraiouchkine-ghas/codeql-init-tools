@@ -115,7 +115,7 @@ runs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
-          gh release download -D ${{ runner.temp }} https://github.com/kraiouchkine-ghas/init-codeql-customizations/releases/download/codeql-bundle-20221105/codeql-bundle-linux64.tar.gz
+          gh release download -D ${{ runner.temp }} -R kraiouchkine-ghas/init-codeql-customizations --pattern 'codeql-bundle-linux64.tar.gz'
         shell: bash
       - id: extract-bundle-codeql-config
         run: |
