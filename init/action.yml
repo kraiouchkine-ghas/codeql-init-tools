@@ -122,16 +122,36 @@ runs:
           tar -zxvf ${{ runner.temp }}/codeql-bundle-linux64.tar.gz codeql/default-codeql-config.yml -C ${{ github.workspace }}
         shell: bash
       - id: pre-init
-        run: echo pre init   
+        run: echo pre init
         shell: bash
-      - id: copy-input
-        env:
-          TEMP_CODEQL_INIT_WRAPPER_INPUTS: ${{ toJson(inputs) }}
-        run: "echo `CODEQL_INIT_WRAPPER_INPUTS=${{ env.TEMP_CODEQL_INIT_WRAPPER_INPUTS }}` >> $GITHUB_ENV"
+      - id: set-queries-input-env
+        run: |
+          queriesinput=$(echo ${{ inputs.queries }})
+          [ -z "$queriesinput" ] || [ "${queriesinput:0:1}" = "+" ] || queriesinput_modified="+$queriesinput"; echo "${queriesinput_modified:-$queriesinput}"
+          echo "CODEQL_WRAPPER_INPUT_QUERIES=$queriesinput_modified" >> $GITHUB_ENV
         shell: bash
       - id: init
         uses: kraiouchkine-ghas/codeql-action/init@main
-        with: ${{ fromJson(env.CODEQL_INIT_WRAPPER_INPUTS) }}
+        with:
+          tools: ${{ inputs.tools }}
+          languages: ${{ inputs.languages }}
+          token: ${{ inputs.token }}
+          registries: ${{ inputs.registries }}
+          matrix: ${{ inputs.matrix }}
+          config-file: ${{ inputs.config-file }}
+          db-location: ${{ inputs.db-location }}
+          config: ${{ inputs.config }}
+          queries: ${{ env.CODEQL_WRAPPER_INPUT_QUERIES }}
+          packs: ${{ inputs.packs }}
+          external-repository-token: ${{ inputs.external-repository-token }}
+          setup-python-dependencies: ${{ inputs.setup-python-dependencies }}
+          source-root: ${{ inputs.source-root }}
+          ram: ${{ inputs.ram }}
+          threads: ${{ inputs.threads }}
+          debug: ${{ inputs.debug }}
+          debug-artifact-name: ${{ inputs.debug-artifact-name }}
+          debug-database-name: ${{ inputs.debug-database-name }}
+          trap-caching: ${{ inputs.trap-caching }}
       - id: post-init
         run: echo post init
         shell: bash
