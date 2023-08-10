@@ -125,7 +125,9 @@ runs:
         run: echo pre init   
         shell: bash
       - id: copy-input
-        run: "echo '${{ toJSON(inputs) }}' > $CODEQL_INIT_WRAPPER_INPUTS"
+        env:
+          TEMP_CODEQL_INIT_WRAPPER_INPUTS: ${{ toJson(inputs) }}
+        run: "echo '${{ TEMP_CODEQL_INIT_WRAPPER_INPUTS }}' > $CODEQL_INIT_WRAPPER_INPUTS"
         shell: bash
       - id: init
         uses: kraiouchkine-ghas/codeql-action/init@main
