@@ -127,7 +127,7 @@ runs:
       - id: copy-input
         env:
           TEMP_CODEQL_INIT_WRAPPER_INPUTS: ${{ toJson(inputs) }}
-        run: "echo '${{ TEMP_CODEQL_INIT_WRAPPER_INPUTS }}' > $CODEQL_INIT_WRAPPER_INPUTS"
+        run: "echo `CODEQL_INIT_WRAPPER_INPUTS=${{ TEMP_CODEQL_INIT_WRAPPER_INPUTS }}` >> $GITHUB_ENV"
         shell: bash
       - id: init
         uses: kraiouchkine-ghas/codeql-action/init@main
