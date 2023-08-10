@@ -122,11 +122,13 @@ runs:
           tar -zxvf ${{ runner.temp }}/codeql-bundle-linux64.tar.gz codeql/default-codeql-config.yml -C ${{ github.workspace }}
         shell: bash
       - id: pre-init
-        run: echo pre init
+        run: echo pre init   
         shell: bash
+      - id: copy-input
+        run: "echo '${{ toJSON(inputs) }}' > $CODEQL_INIT_WRAPPER_INPUTS"
       - id: init
         uses: kraiouchkine-ghas/codeql-action/init@main
-        with: ${{ inputs }}
+        with: ${{ fromJson(env.CODEQL_INIT_WRAPPER_INPUTS) }}
       - id: post-init
         run: echo post init
         shell: bash
