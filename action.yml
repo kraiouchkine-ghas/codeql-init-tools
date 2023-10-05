@@ -14,7 +14,7 @@ inputs:
 
 outputs:
   codeql-tools-path:
-    description: 'The local path to the extracted CodeQL tools.`
+    description: 'The local path to the extracted CodeQL tools.'
 
 runs:
   using: node20
