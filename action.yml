@@ -1,18 +1,20 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'CodeQL Wrapper Action Init'
+description: 'Initialize and output the CodeQL bundle paths.'
+author: 'GitHub'
 
-# Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  codeql-action:
+    description: 'CodeQL action path.'
     required: true
-    default: '1000'
+    default: 'github/codeql-action'
+  tools:
+    description: 'CodeQL tools local path, URL, or "latest". Note that latest forces the latest release tag unlike the default action.'
+    required: true
+    default: 'latest'
 
-# Define your outputs here.
 outputs:
-  time:
-    description: 'Your output description here'
+  codeql-tools-path:
+    description: 'The local path to the extracted CodeQL tools.`
 
 runs:
   using: node20

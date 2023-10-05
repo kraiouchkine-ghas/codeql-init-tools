@@ -65,11 +65,19 @@
     ]
   },
   "dependencies": {
-    "@actions/core": "^1.10.1"
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^5.1.1",
+    "@actions/tool-cache": "^2.0.1",
+    "console-log-level": "^1.4.1",
+    "del": "^7.1.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/console-log-level": "^1.4.3",
     "@types/jest": "^29.5.5",
+    "@types/js-yaml": "^4.0.6",
     "@types/node": "^20.6.3",
+    "@types/uuid": "^9.0.4",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
     "@vercel/ncc": "^0.38.0",
