@@ -55,6 +55,7 @@ jobs:
         with:
           codeql-action: 'github/codeql-action'
           tools: 'latest'
+          token: ${{ github.token }}
 
       - name: Print Output
         id: output
