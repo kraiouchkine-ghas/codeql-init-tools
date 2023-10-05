@@ -8,7 +8,7 @@ inputs:
     required: true
     default: 'github/codeql-action'
   tools:
-    description: 'CodeQL tools local path, URL, or "latest". Note that latest forces the latest release tag unlike the default action.'
+    description: 'CodeQL tools local path, URL, or latest. Note that latest forces the latest release tag unlike the default action.'
     required: true
     default: 'latest'
 
