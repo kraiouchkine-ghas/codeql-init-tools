@@ -17,6 +17,8 @@ inputs:
 outputs:
   codeql-tools-path:
     description: 'The local path to the extracted CodeQL tools.'
+  codeql-tools-archive-path:
+    description: 'The local path to an archived copy of the CodeQL tools.'
 runs:
   using: node20
   main: ./dist/index.js
