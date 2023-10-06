@@ -19,7 +19,7 @@ jobs:
 
       - name: Test Local Action
         id: test-action
-        uses: ./
+        uses: ./init-codeql-tools
         with:
           codeql-action: 'github/codeql-action'
           tools: 'latest'
