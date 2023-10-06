@@ -1,7 +1,6 @@
 name: 'CodeQL Wrapper Action Init'
 description: 'Initialize and output the CodeQL bundle paths.'
 author: 'GitHub'
-
 inputs:
   codeql-action:
     description: 'CodeQL action path.'
@@ -15,11 +14,9 @@ inputs:
     description: 'CodeQL tools local path, URL, or latest. Note that latest forces the latest release tag unlike the default action.'
     required: true
     default: 'latest'
-
 outputs:
   codeql-tools-path:
     description: 'The local path to the extracted CodeQL tools.'
-
 runs:
   using: node20
-  main: dist/index.js
+  main: ../dist/index.js
