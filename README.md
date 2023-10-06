@@ -1,6 +1,6 @@
 # CodeQL Action
 
-This action provides a mechanism for a centrally manageable and configurable wrapper around the CodeQL `init` and `analyze` actions. The use-case this action was originally created to address was automatic extraction and use of `default-codeql-config.yml` code scanning configuration files embedded in custom CodeQL bundles created by the [CodeQL Bundle Action](https://github.com/advanced-security/codeql-bundle-action).
+This action provides a mechanism for a centrally manageable and configurable wrapper around the CodeQL `init` and `analyze` actions. The use-case this action was originally created to address was automatic extraction and use of `default-codeql-config.yml` code scanning configuration files embedded in custom CodeQL bundles created by the [CodeQL Bundle Action](https://github.com/advanced-security/codeql-bundle-action). As such, running this wrapper action will fail if this configuration file does not exist in the specified bundle. 
 
 The `init-codeql-tools` action, used by this wrapper's `init` action, provides a custom implementation of the default `init` action's CodeQL tools resolution and caching logic. On GitHub Enterprise Server in particular, this action provides strictier control over the precise CodeQL tools bundle used for analysis and omits certain implicit behaviors present in the default `init` action, such as falling back to downloading the latest CodeQL tools bundle from GitHub.com if a specified bundle is not found.
 
