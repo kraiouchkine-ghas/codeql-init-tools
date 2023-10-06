@@ -1,10 +1,12 @@
 import * as path from 'path'
 import { OutgoingHttpHeaders } from 'http'
-import * as core from '@actions/core'
-import * as toolcache from '@actions/tool-cache'
+import * as tar from 'tar'
 import * as semver from 'semver'
 import { v4 as uuidV4 } from 'uuid'
 import { deleteSync } from 'del'
+
+import * as core from '@actions/core'
+import * as toolcache from '@actions/tool-cache'
 
 import { getRequiredInput, getTemporaryDirectory, wrapError } from './util'
 
@@ -525,6 +527,26 @@ async function setupCodeQLBundleStrict(
   return { codeqlFolder, toolsDownloadDurationMs, toolsSource, toolsVersion }
 }
 
+async function createTar(
+  codeqlFolder: string,
+  outputDir: string
+): Promise<string> {
+  const outputPath = path.join(outputDir, 'codeql-bundle.tar.gz')
+  core.debug(`Creating CodeQL bundle at: ${outputPath}`)
+  const cwd = path.dirname(codeqlFolder)
+  const bundleDir = path.relative(path.dirname(codeqlFolder), codeqlFolder)
+  core.debug('Running tar from ${cwd} on ${bundleDir}')
+  await tar.create(
+    {
+      gzip: true,
+      file: outputPath,
+      cwd
+    },
+    [bundleDir]
+  )
+  return outputPath
+}
+
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -542,8 +564,13 @@ export async function run(): Promise<void> {
         getTemporaryDirectory(),
         codeqlActionRepo
       )
-
+      // re-archive the CodeQL bundle, since it's the only guaranteed way for the CodeQL init action
+      // to use the bundle we specify as input rather than others in the toolcache or from fallback sources
       core.setOutput('codeql-tools-path', result.codeqlFolder)
+      core.setOutput(
+        'codeql-bundle-archive-path',
+        createTar(result.codeqlFolder, getTemporaryDirectory())
+      )
     } catch (e) {
       throw new Error(
         `Unable to download and extract CodeQL CLI: ${wrapError(e).message}`
