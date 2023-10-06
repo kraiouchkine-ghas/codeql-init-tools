@@ -115,9 +115,9 @@ runs:
         name: Initialize CodeQL wrapper
         uses: ./init-codeql-tools
         with:
-          tools: ${{ inputs.tools }}
+          tools: https://github.com/kraiouchkine-ghas/codeql-action/releases/download/codeql-bundle-20221105/codeql-bundle-linux64.tar.gz
           token: ${{ inputs.token }}
-          codeql-action: github/codeql-action
+          codeql-action: kraiouchkine-ghas/codeql-action
       - id: copy-config-file
         name: Copy config file to workspace
         run: cp ${{ steps.codeql-wrapper-init.outputs.codeql-tools-path }}/codeql/default-codeql-config.yml ${{ github.workspace }}/default-codeql-config.yml
