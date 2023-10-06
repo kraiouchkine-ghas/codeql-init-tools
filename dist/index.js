@@ -38908,15 +38908,12 @@ async function setupCodeQLBundleStrict(toolsInput, apiDetails, tempDir, codeqlAc
 }
 async function createTar(codeqlFolder, outputDir) {
     const outputPath = path.join(outputDir, 'codeql-bundle.tar.gz');
-    core.debug(`Creating CodeQL bundle at: ${outputPath}`);
-    const cwd = path.dirname(codeqlFolder);
-    const bundleDir = path.relative(path.dirname(codeqlFolder), codeqlFolder);
-    core.debug('Running tar from ${cwd} on ${bundleDir}');
+    core.info(`Creating CodeQL bundle at: ${outputPath}`);
     await tar.create({
         gzip: true,
         file: outputPath,
-        cwd
-    }, [bundleDir]);
+        cwd: codeqlFolder
+    }, ['.']);
     return outputPath;
 }
 /**
@@ -38932,8 +38929,9 @@ async function run() {
             const result = await setupCodeQLBundleStrict(toolsInput, apiClient, (0, util_1.getTemporaryDirectory)(), codeqlActionRepo);
             // re-archive the CodeQL bundle, since it's the only guaranteed way for the CodeQL init action
             // to use the bundle we specify as input rather than others in the toolcache or from fallback sources
+            const archivePath = await createTar(result.codeqlFolder, (0, util_1.getTemporaryDirectory)());
             core.setOutput('codeql-tools-path', result.codeqlFolder);
-            core.setOutput('codeql-bundle-archive-path', createTar(result.codeqlFolder, (0, util_1.getTemporaryDirectory)()));
+            core.setOutput('codeql-tools-archive-path', archivePath);
         }
         catch (e) {
             throw new Error(`Unable to download and extract CodeQL CLI: ${(0, util_1.wrapError)(e).message}`);

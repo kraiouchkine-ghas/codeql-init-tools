@@ -532,17 +532,14 @@ async function createTar(
   outputDir: string
 ): Promise<string> {
   const outputPath = path.join(outputDir, 'codeql-bundle.tar.gz')
-  core.debug(`Creating CodeQL bundle at: ${outputPath}`)
-  const cwd = path.dirname(codeqlFolder)
-  const bundleDir = path.relative(path.dirname(codeqlFolder), codeqlFolder)
-  core.debug('Running tar from ${cwd} on ${bundleDir}')
+  core.info(`Creating CodeQL bundle at: ${outputPath}`)
   await tar.create(
     {
       gzip: true,
       file: outputPath,
-      cwd
+      cwd: codeqlFolder
     },
-    [bundleDir]
+    ['.']
   )
   return outputPath
 }
@@ -566,11 +563,12 @@ export async function run(): Promise<void> {
       )
       // re-archive the CodeQL bundle, since it's the only guaranteed way for the CodeQL init action
       // to use the bundle we specify as input rather than others in the toolcache or from fallback sources
-      core.setOutput('codeql-tools-path', result.codeqlFolder)
-      core.setOutput(
-        'codeql-bundle-archive-path',
-        createTar(result.codeqlFolder, getTemporaryDirectory())
+      const archivePath = await createTar(
+        result.codeqlFolder,
+        getTemporaryDirectory()
       )
+      core.setOutput('codeql-tools-path', result.codeqlFolder)
+      core.setOutput('codeql-tools-archive-path', archivePath)
     } catch (e) {
       throw new Error(
         `Unable to download and extract CodeQL CLI: ${wrapError(e).message}`
