@@ -19,4 +19,4 @@ outputs:
     description: 'The local path to the extracted CodeQL tools.'
 runs:
   using: node20
-  main: ../dist/index.js
+  main: ./dist/index.js
