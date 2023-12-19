@@ -75,7 +75,7 @@
   },
   "devDependencies": {
     "@types/console-log-level": "^1.4.3",
-    "@types/jest": "^29.5.5",
+    "@types/jest": "^29.5.11",
     "@types/js-yaml": "^4.0.6",
     "@types/node": "^20.10.5",
     "@types/tar": "^6.1.6",
